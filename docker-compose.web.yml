@@ -1,0 +1,12 @@
+version: "2.1"
+
+services:
+  bxweb:
+    image: 233317242204.dkr.ecr.us-east-1.amazonaws.com/tryboxlang:bx-web
+    environment:
+      cfconfig_adminPassword: testing
+    volumes:
+      - ./test:/app
+      - ./build:/root/build
+    ports:
+      - "8888:8080"

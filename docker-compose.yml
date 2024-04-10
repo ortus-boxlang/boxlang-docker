@@ -1,0 +1,5 @@
+version: "2.1"
+
+services:
+  cli:
+    image: 233317242204.dkr.ecr.us-east-1.amazonaws.com/tryboxlang:bx
