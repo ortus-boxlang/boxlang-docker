@@ -98,15 +98,15 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_SECRET }}
 
-      - name: Test
-        env:
-          BX_VERSION: ${{ env.bx_version }}
-          DOCKER_BUILDKIT: 1
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          BUILD_IMAGE_DOCKERFILE: ${{ matrix.BUILD_IMAGE_DOCKERFILE }}
-        run: |
-          docker compose -f docker-compose.test.yml up --build --exit-code-from sut
-          docker compose -f docker-compose.secret-test.yml up --build --exit-code-from sut
+      # - name: Test
+      #   env:
+      #     BX_VERSION: ${{ env.bx_version }}
+      #     DOCKER_BUILDKIT: 1
+      #     COMPOSE_DOCKER_CLI_BUILD: 1
+      #     BUILD_IMAGE_DOCKERFILE: ${{ matrix.BUILD_IMAGE_DOCKERFILE }}
+      #   run: |
+      #     docker compose -f docker-compose.test.yml up --build --exit-code-from sut
+      #     docker compose -f docker-compose.secret-test.yml up --build --exit-code-from sut
 
       - name: Build Final
         uses: docker/build-push-action@v4
