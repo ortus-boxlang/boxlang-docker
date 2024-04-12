@@ -8,6 +8,9 @@ on:
     tags:
       - v*
   workflow_dispatch:
+    inputs: 
+      version:
+        required: true
 
 jobs:
   publish:
