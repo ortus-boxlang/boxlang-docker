@@ -19,9 +19,9 @@ jobs:
       matrix:
         include:
           # Alpine builds
-          # Note: No JDK builders currently support alpine with ARM
-          - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Dockerfile
-            BUILD_IMAGE_TAG: cli
+          # Disabling CLI builds temporarily
+          # - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Dockerfile
+          #   BUILD_IMAGE_TAG: cli
           - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Web.Dockerfile
             BUILD_IMAGE_TAG: miniserver
 
