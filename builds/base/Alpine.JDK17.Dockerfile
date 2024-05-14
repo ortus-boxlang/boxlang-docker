@@ -1,9 +1,9 @@
 FROM eclipse-temurin:17-jdk-alpine
 
-ARG VERSION
-ARG BX_VERSION
+ARG IMAGE_VERSION
+ARG BOXLANG_VERSION
 
-LABEL version ${VERSION}
+LABEL version ${IMAGE_VERSION}
 LABEL maintainer "Jon Clausen <jclausen@ortussolutions.com>"
 # LABEL repository "https://github.com/Ortus-Solutions/docker-bx"
 

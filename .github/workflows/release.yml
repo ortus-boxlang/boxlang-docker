@@ -8,7 +8,7 @@ on:
     tags:
       - v*
   workflow_dispatch:
-    inputs: 
+    inputs:
       version:
         required: true
 
@@ -21,11 +21,9 @@ jobs:
           # Alpine builds
           # Note: No JDK builders currently support alpine with ARM
           - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Dockerfile
-            BUILD_IMAGE_TAG: bx
+            BUILD_IMAGE_TAG: cli
           - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Web.Dockerfile
-            BUILD_IMAGE_TAG: bx-web
-          - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.StayAlive.Dockerfile
-            BUILD_IMAGE_TAG: bx-stayalive
+            BUILD_IMAGE_TAG: miniserver
 
     steps:
       - name: Checkout
@@ -43,10 +41,10 @@ jobs:
       - name: Setup Builds
         id: setup
         env:
-          DOCKER_IMAGE: 233317242204.dkr.ecr.us-east-1.amazonaws.com/tryboxlang
+          DOCKER_IMAGE: ortussolutions/boxlang
           BUILD_IMAGE_TAG: ${{ matrix.BUILD_IMAGE_TAG }}
-          BX_VERSION: 1.0.0
-          IMAGE_VERSION: 0.0.1
+          BOXLANG_VERSION: 1.0.0
+          IMAGE_VERSION: 1.0.0
         run: |
           # Tag Builds
           if [[ $GITHUB_REF == refs/tags/* ]]; then
@@ -66,45 +64,28 @@ jobs:
 
           TAGS="${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}"
 
-          # if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
-          ARCH_PLATFORMS=linux/amd64
-          # else
-            # ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
-          # fi
+          if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
+            ARCH_PLATFORMS=linux/amd64
+          else
+            ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
+          fi
 
           # Set output parameters.
           echo "arch_platforms=${ARCH_PLATFORMS}" >> $GITHUB_ENV
           echo "image_version=${IMAGE_VERSION}" >> $GITHUB_ENV
-          echo "bx_version=${BX_VERSION}" >> $GITHUB_ENV
+          echo "boxlang_version=${BOXLANG_VERSION}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${TAGS}" >> $GITHUB_ENV
 
-      # - name: DockerHub Login
-      #   if: github.event_name != 'pull_request'
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_SECRET }}
+      - name: DockerHub Login
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
         with:
-          # role-to-assume: arn:aws:iam::123456789012:role/my-github-actions-role
-          aws-region: us-east-1
-          mask-aws-account-id: "false"
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_SECRET }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       # - name: Test
       #   env:
-      #     BX_VERSION: ${{ env.bx_version }}
+      #     boxlang_VERSION: ${{ env.BOXLANG_VERSION }}
       #     DOCKER_BUILDKIT: 1
       #     COMPOSE_DOCKER_CLI_BUILD: 1
       #     BUILD_IMAGE_DOCKERFILE: ${{ matrix.BUILD_IMAGE_DOCKERFILE }}
@@ -121,7 +102,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
           file: ${{ matrix.BUILD_IMAGE_DOCKERFILE }}
-          build-args: BX_VERSION=${{ env.bx_version }}
+          build-args: BOXLANG_VERSION=${{ env.boxlang_version }}
           platforms: ${{ env.arch_platforms }}
           push: true
           tags: ${{ env.IMAGE_TAG }}
