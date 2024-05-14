@@ -3,6 +3,8 @@
 # Make sure errors (like curl failing, or unzip failing, or anything failing) fails the build
 set -ex
 
+printenv;
+
 if [ -z "$BOXLANG_VERSION" ]; then
   echo "BX Version not supplied via variable BOXLANG_VERSION"
   exit 1

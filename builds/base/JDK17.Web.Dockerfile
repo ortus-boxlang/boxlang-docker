@@ -32,29 +32,21 @@ WORKDIR $APP_DIR
 ENV BUILD_DIR $LIB_DIR/build
 WORKDIR $BUILD_DIR
 
-# COMMANDBOX_HOME = Where CommmandBox Lives
-# ENV COMMANDBOX_HOME=$LIB_DIR/CommandBox
-
 # Copy file system
 COPY ./test/ ${APP_DIR}/
 COPY ./build/ ${BUILD_DIR}/
+
 # Ensure all workgroup users have permission on the build scripts
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
 
-# Basic Dependencies including binaries for PDF rendering
-# RUN rm -rf $BUILD_DIR/util/debian
-# RUN rm -rf $BUILD_DIR/util/ubi9
-RUN source $BUILD_DIR/util/debian/install-dependencies.sh
+RUN $BUILD_DIR/util/debian/install-dependencies.sh
 
-# bx Installation
 RUN $BUILD_DIR/util/install-bx-web.sh
 
-# Add our custom classes added in the previous step to the java classpath
 ENV CLASSPATH="$JAVA_HOME/classes"
 
-# Default Port Environment Variables
 ENV PORT 8080
 ENV SSL_PORT 8443
 
