@@ -20,10 +20,14 @@ jobs:
         include:
           # Alpine builds
           # Disabling CLI builds temporarily
-          # - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Dockerfile
-          #   BUILD_IMAGE_TAG: cli
-          - BUILD_IMAGE_DOCKERFILE: builds/alpine/Base.Web.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK17.Dockerfile
+            BUILD_IMAGE_TAG: cli
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK17.Web.Dockerfile
             BUILD_IMAGE_TAG: miniserver
+          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JDK17.Dockerfile
+            BUILD_IMAGE_TAG: cli-alpine
+          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JDK17.Web.Dockerfile
+            BUILD_IMAGE_TAG: miniserver-alpine
 
     steps:
       - name: Checkout
@@ -64,11 +68,11 @@ jobs:
 
           TAGS="${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}"
 
-          # if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
+          if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
             ARCH_PLATFORMS=linux/amd64
-          # else
-          #   ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
-          # fi
+          else
+            ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
+          fi
 
           # Set output parameters.
           echo "arch_platforms=${ARCH_PLATFORMS}" >> $GITHUB_ENV

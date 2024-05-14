@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-jammy
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -15,9 +15,6 @@ ENV HOME /root
 
 # Alpine workgroup is root group
 ENV WORKGROUP root
-
-# Flag as an alpine release
-RUN touch /etc/alpine-release
 
 ### Directory Mappings ###
 
@@ -49,7 +46,7 @@ RUN chmod -R +x $BUILD_DIR
 # Basic Dependencies including binaries for PDF rendering
 # RUN rm -rf $BUILD_DIR/util/debian
 # RUN rm -rf $BUILD_DIR/util/ubi9
-RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
+RUN source $BUILD_DIR/util/debian/install-dependencies.sh
 
 # bx Installation
 RUN $BUILD_DIR/util/install-bx.sh

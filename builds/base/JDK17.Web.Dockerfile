@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-jammy
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -15,9 +15,6 @@ ENV HOME /root
 
 # Alpine workgroup is root group
 ENV WORKGROUP root
-
-# Flag as an alpine release
-RUN touch /etc/alpine-release
 
 ### Directory Mappings ###
 
@@ -49,28 +46,26 @@ RUN chmod -R +x $BUILD_DIR
 # Basic Dependencies including binaries for PDF rendering
 # RUN rm -rf $BUILD_DIR/util/debian
 # RUN rm -rf $BUILD_DIR/util/ubi9
-RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
+RUN source $BUILD_DIR/util/debian/install-dependencies.sh
 
 # bx Installation
-RUN $BUILD_DIR/util/install-bx.sh
+RUN $BUILD_DIR/util/install-bx-web.sh
 
 # Add our custom classes added in the previous step to the java classpath
-# ENV CLASSPATH="$JAVA_HOME/classes"
+ENV CLASSPATH="$JAVA_HOME/classes"
 
 # Default Port Environment Variables
-# ENV PORT 8080
-# ENV SSL_PORT 8443
-
-RUN java -jar ${BIN_DIR}/bx-all.jar -c 2+2
+ENV PORT 8080
+ENV SSL_PORT 8443
 
 # Healthcheck environment variables
-# ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
+ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
 
 # Our healthcheck interval doesn't allow dynamic intervals - Default is 20s intervals with 15 retries
-# HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
+HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
 
-# EXPOSE ${PORT} ${SSL_PORT}
+EXPOSE ${PORT} ${SSL_PORT}
 
 WORKDIR $APP_DIR
 
-CMD [ "bx.sh", "message='BoxLang CLI is alive';println(message)" ]
+CMD $BUILD_DIR/run.sh
