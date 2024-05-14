@@ -64,11 +64,11 @@ jobs:
 
           TAGS="${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}"
 
-          if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
+          # if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
             ARCH_PLATFORMS=linux/amd64
-          else
-            ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
-          fi
+          # else
+          #   ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
+          # fi
 
           # Set output parameters.
           echo "arch_platforms=${ARCH_PLATFORMS}" >> $GITHUB_ENV
