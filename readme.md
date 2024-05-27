@@ -43,3 +43,13 @@ Both images are tagged with the following tags:
 ## Documentation
 
 You can find our complete docs here: https://boxlang.ortusbooks.com/getting-started/running-boxlang/docker
+
+## Environment Variables
+
+The following environment variables can be used to configure the BoxLang Docker images:
+
+* `BOXLANG_HOME` - The home directory of the BoxLang installation. Default: `/home/.boxlang`
+* `BOXLANG_PORT` - The port the MiniServer will listen on. Default: `8080`
+* `BOXLANG_HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
+* `BOXLANG_DEBUG` - Enable debugging. Default: `false`
+* `BOXLANG_CONFIG_PATH` - The path to the BoxLang configuration file. Default: `/home/.boxlang/boxlang.json`

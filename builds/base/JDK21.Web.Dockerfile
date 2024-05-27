@@ -5,12 +5,14 @@ ARG BOXLANG_VERSION
 
 LABEL version ${IMAGE_VERSION}
 LABEL maintainer "Jon Clausen <jclausen@ortussolutions.com>"
+LABEL maintainer "Luis Majano <lmajano@ortussolutions.com>"
 LABEL repository "https://github.com/ortus-boxlang/docker-boxlang"
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
-# Since alpine runs as a single user, we need to create a "root" direcotry
+# Since alpine runs as a single user, we need to create a "root" directory
+# This is where the BoxLang HOME will be stored /root/.boxlang
 ENV HOME /root
 
 # Alpine workgroup is root group
@@ -19,9 +21,9 @@ ENV WORKGROUP root
 ### Directory Mappings ###
 
 # BIN_DIR = Where the box binary goes
-ENV BIN_DIR /usr/bin
+ENV BIN_DIR /usr/local/bin
 # LIB_DIR = Where the build files go
-ENV LIB_DIR /usr/lib
+ENV LIB_DIR /usr/local/lib
 WORKDIR $BIN_DIR
 
 # APP_DIR = the directory where the application runs
@@ -40,15 +42,16 @@ COPY ./build/ ${BUILD_DIR}/
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
-
+# bx Installation
 RUN $BUILD_DIR/util/debian/install-dependencies.sh
+RUN $BUILD_DIR/util/install-bx.sh
 
-RUN $BUILD_DIR/util/install-bx-web.sh
-
-ENV CLASSPATH="$JAVA_HOME/classes"
-
+# ENV
+ENV DEBUG false
+ENV HOST 0.0.0.0
 ENV PORT 8080
 ENV SSL_PORT 8443
+# ENV CONFIG_PATH /path/to/boxlang.json
 
 # Healthcheck environment variables
 ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"

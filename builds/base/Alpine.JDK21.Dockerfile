@@ -5,12 +5,14 @@ ARG BOXLANG_VERSION
 
 LABEL version ${IMAGE_VERSION}
 LABEL maintainer "Jon Clausen <jclausen@ortussolutions.com>"
+LABEL maintainer "Luis Majano <lmajano@ortussolutions.com>"
 LABEL repository "https://github.com/ortus-boxlang/docker-boxlang"
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
-# Since alpine runs as a single user, we need to create a "root" direcotry
+# Since alpine runs as a single user, we need to create a "root" directory
+# This is where the BoxLang HOME will be stored /root/.boxlang
 ENV HOME /root
 
 # Alpine workgroup is root group
@@ -22,9 +24,9 @@ RUN touch /etc/alpine-release
 ### Directory Mappings ###
 
 # BIN_DIR = Where the box binary goes
-ENV BIN_DIR /usr/bin
+ENV BIN_DIR /usr/local/bin
 # LIB_DIR = Where the build files go
-ENV LIB_DIR /usr/lib
+ENV LIB_DIR /usr/local/lib
 WORKDIR $BIN_DIR
 
 # APP_DIR = the directory where the application runs
@@ -45,32 +47,13 @@ COPY ./build/ ${BUILD_DIR}/
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
-
-# Basic Dependencies including binaries for PDF rendering
-# RUN rm -rf $BUILD_DIR/util/debian
-# RUN rm -rf $BUILD_DIR/util/ubi9
-RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
-
 # bx Installation
+RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
-# Add our custom classes added in the previous step to the java classpath
-# ENV CLASSPATH="$JAVA_HOME/classes"
-
-# Default Port Environment Variables
-# ENV PORT 8080
-# ENV SSL_PORT 8443
-
-RUN java -jar ${BIN_DIR}/bx-all.jar -c 2+2
-
-# Healthcheck environment variables
-# ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
-
-# Our healthcheck interval doesn't allow dynamic intervals - Default is 20s intervals with 15 retries
-# HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
-
-# EXPOSE ${PORT} ${SSL_PORT}
+# Test it
+RUN boxlang -c 2+2
 
 WORKDIR $APP_DIR
 
-CMD [ "bx.sh", "message='BoxLang CLI is alive';println(message)" ]
+CMD [ "boxlang", "message='BoxLang CLI is alive';println(message)" ]

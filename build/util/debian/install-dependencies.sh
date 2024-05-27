@@ -5,4 +5,5 @@ apt-get update && apt-get install --assume-yes \
                                 apt-utils \
                                 ca-certificates \
                                 curl \
+                                unzip \
                                 jq
