@@ -56,6 +56,8 @@ ENV HOST 0.0.0.0
 ENV PORT 8080
 ENV SSL_PORT 8443
 # ENV CONFIG_PATH /path/to/boxlang.json
+# All the JVM options to send to the mini server
+# ENV JAVA_OPTS "-Xmx512m -Xms256m"
 
 # Healthcheck environment variables
 ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
