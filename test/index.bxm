@@ -1,0 +1,39 @@
+<bx:if structKeyExists( url, "debug" )>
+	<bx:script>
+		system = createObject( "java", "java.lang.System" );
+		env = system.getenv();
+	</bx:script>
+	<bx:switch expression="#url.debug#">
+		<bx:case value="cgi">
+			<bx:set debugOutput = cgi>
+		</bx:case>
+
+		<bx:case value="server">
+			<bx:set debugOutput = server>
+		</bx:case>
+
+		<bx:case value="env">
+			<bx:set debugOutput = env>
+		</bx:case>
+
+		<bx:case value="all">
+			<bx:set debugOutput = { "server":SERVER, "CGI":CGI, "env":env }>
+		</bx:case>
+		<bx:defaultcase>
+			<bx:set debugOutput = { "error":true, "message":"No debug parameter provided. Available parameters are: cgi, server, env, all" }>
+		</bx:defaultcase>
+	</bx:switch>
+	<bx:dump var="#debugOutput#" >
+<bx:else>
+	<body style="background-color: ##efefef; margin-top:100px">
+		<h1>
+			<div style="text-align: center">
+				<img src="logo-gradient-dark.png" > <br>
+				Welcome to the BoxLang MiniServer!
+			</div>
+		</h1>
+		<p style="text-align: center">
+			If you want to see some debugging information for this instance, click on the debug link: <a href="index.bxm?debug=all">see debugging</a>
+		</p>
+	</body>
+</bx:if>
