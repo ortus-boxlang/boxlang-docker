@@ -2,11 +2,19 @@ version: "2.1"
 
 services:
   bxweb:
-    image: 233317242204.dkr.ecr.us-east-1.amazonaws.com/tryboxlang:bx-web
+    image: docker pull ortussolutions/boxlang:miniserver
     environment:
-      cfconfig_adminPassword: testing
+      - BOXLANG_PORT=8080
+      - BOXLANG_WEBROOT=/app
+      - BOXLANG_DEBUG=false
+      - BOXLANG_HOST=localhost
+      # Path to boxlang.json
+      #- BOXLANG_CONFIG=/path/to/boxlang.json
+      # Where to store the boxlang home
+      - BOXLANG_HOME=/opt/boxlang
     volumes:
       - ./test:/app
+      - ./test/.engine:/opt/boxlang
       - ./build:/root/build
     ports:
       - "8888:8080"

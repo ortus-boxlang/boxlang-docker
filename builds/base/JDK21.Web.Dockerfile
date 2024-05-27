@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM eclipse-temurin:21-jdk-jammy
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION

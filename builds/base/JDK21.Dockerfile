@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:21-jdk-jammy
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -15,9 +15,6 @@ ENV HOME /root
 
 # Alpine workgroup is root group
 ENV WORKGROUP root
-
-# Flag as an alpine release
-RUN touch /etc/alpine-release
 
 ### Directory Mappings ###
 
@@ -41,35 +38,16 @@ WORKDIR $BUILD_DIR
 # Copy file system
 COPY ./test/ ${APP_DIR}/
 COPY ./build/ ${BUILD_DIR}/
+
 # Ensure all workgroup users have permission on the build scripts
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
+RUN $BUILD_DIR/util/debian/install-dependencies.sh
 
-# Basic Dependencies including binaries for PDF rendering
-# RUN rm -rf $BUILD_DIR/util/debian
-# RUN rm -rf $BUILD_DIR/util/ubi9
-RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
-
-# bx Installation
 RUN $BUILD_DIR/util/install-bx.sh
 
-# Add our custom classes added in the previous step to the java classpath
-# ENV CLASSPATH="$JAVA_HOME/classes"
-
-# Default Port Environment Variables
-# ENV PORT 8080
-# ENV SSL_PORT 8443
-
 RUN java -jar ${BIN_DIR}/bx-all.jar -c 2+2
-
-# Healthcheck environment variables
-# ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
-
-# Our healthcheck interval doesn't allow dynamic intervals - Default is 20s intervals with 15 retries
-# HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
-
-# EXPOSE ${PORT} ${SSL_PORT}
 
 WORKDIR $APP_DIR
 
