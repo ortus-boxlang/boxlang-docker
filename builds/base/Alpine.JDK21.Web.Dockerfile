@@ -48,7 +48,7 @@ RUN chmod -R +x $BUILD_DIR
 
 # bx Installation
 RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
-RUN $BUILD_DIR/util/install-bx-web.sh
+RUN $BUILD_DIR/util/install-bx.sh
 
 # ENV
 ENV DEBUG false
