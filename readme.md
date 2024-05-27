@@ -53,3 +53,4 @@ The following environment variables can be used to configure the BoxLang Docker 
 * `BOXLANG_HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
 * `BOXLANG_DEBUG` - Enable debugging. Default: `false`
 * `BOXLANG_CONFIG_PATH` - The path to the BoxLang configuration file. Default: `/home/.boxlang/boxlang.json`
+* `JAVA_OPTS` - Java options for the MiniServer. Default: `-Xmx512m -Xms256m`
