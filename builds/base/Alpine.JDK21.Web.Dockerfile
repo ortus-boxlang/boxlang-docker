@@ -1,11 +1,11 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
-ARG VERSION
-ARG BX_VERSION
+ARG IMAGE_VERSION
+ARG BOXLANG_VERSION
 
-LABEL version ${VERSION}
+LABEL version ${IMAGE_VERSION}
 LABEL maintainer "Jon Clausen <jclausen@ortussolutions.com>"
-# LABEL repository "https://github.com/Ortus-Solutions/docker-bx"
+LABEL repository "https://github.com/ortus-boxlang/docker-boxlang"
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
@@ -52,7 +52,7 @@ RUN chmod -R +x $BUILD_DIR
 RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
 
 # bx Installation
-RUN $BUILD_DIR/util/install-bx-stayalive.sh
+RUN $BUILD_DIR/util/install-bx-web.sh
 
 # Add our custom classes added in the previous step to the java classpath
 ENV CLASSPATH="$JAVA_HOME/classes"
@@ -60,8 +60,6 @@ ENV CLASSPATH="$JAVA_HOME/classes"
 # Default Port Environment Variables
 ENV PORT 8080
 ENV SSL_PORT 8443
-
-RUN java -jar ${BIN_DIR}/bx-all.jar -c 2+2
 
 # Healthcheck environment variables
 ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
@@ -73,4 +71,4 @@ EXPOSE ${PORT} ${SSL_PORT}
 
 WORKDIR $APP_DIR
 
-CMD tail -f /dev/null
+CMD $BUILD_DIR/run.sh

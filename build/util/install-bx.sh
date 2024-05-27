@@ -3,14 +3,16 @@
 # Make sure errors (like curl failing, or unzip failing, or anything failing) fails the build
 set -ex
 
-if [ -z "$BX_VERSION" ]; then
-  echo "BX Version not supplied via variable BX_VERSION"
+printenv;
+
+if [ -z "$BOXLANG_VERSION" ]; then
+  echo "BX Version not supplied via variable BOXLANG_VERSION"
   exit 1
 fi
 
 # Installs the latest CommandBox Binary
 mkdir -p /tmp
-curl -k  -o /tmp/bx-all.jar -location "https://ortus-temp.s3.amazonaws.com/jericho/libs/boxlang-${BX_VERSION}-all.jar"
+curl -k  -o /tmp/bx-all.jar -location "https://downloads.ortussolutions.com/ortussolutions/boxlang/${BOXLANG_VERSION}/boxlang-${BOXLANG_VERSION}-all.jar"
 mv /tmp/bx-all.jar ${BIN_DIR}/bx-all.jar && chmod 777 ${BIN_DIR}/bx-all.jar
 echo "#!/bin/bash" > ${BIN_DIR}/bx.sh
 echo "" >> ${BIN_DIR}/bx.sh
@@ -29,7 +31,7 @@ echo "bx_home=${BX_HOME}" > ${BIN_DIR}/bx.properties
 # box uninstall --system commandbox-update-check
 
 # Swap out binary with thin client now that everything is expanded
-# curl https://s3.amazonaws.com/downloads.ortussolutions.com/ortussolutions/commandbox/${BX_VERSION}/box-thin -o ${BIN_DIR}/box
+# curl https://s3.amazonaws.com/downloads.ortussolutions.com/ortussolutions/commandbox/${BOXLANG_VERSION}/box-thin -o ${BIN_DIR}/box
 
 # Set container in to single server mode
 # box config set server.singleServerMode=true
