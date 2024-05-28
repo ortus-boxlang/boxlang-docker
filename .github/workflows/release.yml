@@ -12,6 +12,11 @@ on:
       version:
         required: true
 
+#Cancel running builds if another push to branch is made while this build is running
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
 env:
     BOXLANG_VERSION: 1.0.0
     IMAGE_VERSION: 1.0.0
