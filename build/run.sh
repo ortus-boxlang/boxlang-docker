@@ -51,11 +51,20 @@ if [[ $USER ]] && [[ $USER != $(whoami) ]]; then
 
 fi
 
+# Do we have modules to install? Iterate over the BOXLANG_MODULES environment variable and call the install-bx-module.sh script
+if [[ $BOXLANG_MODULES ]]; then
+    for module in $(echo $BOXLANG_MODULES | tr "," "\n"); do
+        install-bx-module $module
+    done
+fi
+
 # Go to the app directory where we will run the server
 cd $APP_DIR
 
-# Server Home
-export BOXLANG_HOME=${HOME}/.boxlang
+# If we don't have a BOXLANG_HOME set, let's set it
+if [ -z "${BOXLANG_HOME}" ]; then
+    export BOXLANG_HOME="$HOME/.boxlang"
+fi
 
 # If you have a DEBUG env variable set, we will start the server in debug mode
 if [[ $DEBUG == true ]]; then

@@ -1,5 +1,3 @@
-version: "2.1"
-
 services:
   cli:
     image: docker pull ortussolutions/boxlang:cli
