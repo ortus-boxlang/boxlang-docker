@@ -12,23 +12,18 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE: ortussolutions/commandbox
-      COMMANDBOX_VERSION: 6.0.0
+      DOCKER_IMAGE: ortussolutions/boxlang
     strategy:
       matrix:
         include:
-          - BUILD_IMAGE_DOCKERFILE: builds/debian/Base.Dockerfile
-            BUILD_IMAGE_TAG: CommandBox
-          # - BUILD_IMAGE_DOCKERFILE: builds/debian/Lucee5.Dockerfile
-          #   BUILD_IMAGE_TAG: lucee5.3.10.97
-          # - BUILD_IMAGE_DOCKERFILE: builds/debian/Adobe2018.Dockerfile
-          #   BUILD_IMAGE_TAG: adobe2018.0.15.330106
-          # - BUILD_IMAGE_DOCKERFILE: builds/debian/Adobe2021.Dockerfile
-          #   BUILD_IMAGE_TAG: adobe2021.0.05.330109
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK21.Dockerfile
+            BUILD_IMAGE_TAG: cli
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK21.Web.Dockerfile
+            BUILD_IMAGE_TAG: miniserver
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
@@ -46,7 +41,8 @@ jobs:
         with:
           context: .
           file: ${{ matrix.BUILD_IMAGE_DOCKERFILE }}
-          build-args: COMMANDBOX_VERSION=${{ env.COMMANDBOX_VERSION }}
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
           push: false
           load: true
           tags: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
