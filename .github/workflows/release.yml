@@ -133,7 +133,7 @@ jobs:
   # Build Snapshot or Final Release
   #############################################
   artifacts:
-    name: Build & Publish Release
+    name: Publish Release Artifacts
     if: github.ref != 'refs/heads/development'
     runs-on: ubuntu-latest
     permissions:
