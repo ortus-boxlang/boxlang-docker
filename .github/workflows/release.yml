@@ -129,6 +129,21 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_TAG }}
 
+  #############################################
+  # Build Snapshot or Final Release
+  #############################################
+  artifacts:
+    name: Build & Publish Release
+    if: github.ref != 'refs/heads/development'
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: write
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Update changelog [unreleased] with latest version
         uses: thomaseizinger/keep-a-changelog-new-release@2.0.0
         if: env.SNAPSHOT == 'false'
