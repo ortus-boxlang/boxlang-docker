@@ -1,6 +1,6 @@
 services:
   bxweb:
-    image: docker pull ortussolutions/boxlang:miniserver
+    image: ortussolutions/boxlang:miniserver
     #image: bxserver-test
     environment:
       - BOXLANG_PORT=8080
@@ -12,7 +12,7 @@ services:
       # Where to store the boxlang home
       - BOXLANG_HOME=/opt/boxlang
       # - JAVA_OPTS=-Xmx512m
-      - BOXLANG_MODULES=bx-compat,bx-esapi,bx-mysql
+      - BOXLANG_MODULES=bx-compat-cfml,bx-esapi,bx-mysql
     volumes:
       - ./test:/app
       - ./test/.engine:/opt/boxlang
