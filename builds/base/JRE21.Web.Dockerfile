@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-jammy
+FROM eclipse-temurin:21-jre-noble
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -34,7 +34,7 @@ WORKDIR $APP_DIR
 ENV BUILD_DIR $LIB_DIR/build
 WORKDIR $BUILD_DIR
 
-# Copy file system and test system
+# Copy file system
 COPY ./test/ ${APP_DIR}/
 COPY ./build/ ${BUILD_DIR}/
 
@@ -46,9 +46,23 @@ RUN chmod -R +x $BUILD_DIR
 RUN $BUILD_DIR/util/debian/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
-# Test it
-RUN boxlang -c 2+2
+# ENV
+ENV DEBUG false
+ENV HOST 0.0.0.0
+ENV PORT 8080
+ENV SSL_PORT 8443
+# ENV CONFIG_PATH /path/to/boxlang.json
+# All the JVM options to send to the mini server
+# ENV JAVA_OPTS "-Xmx512m -Xms256m"
+
+# Healthcheck environment variables
+ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
+
+# Our healthcheck interval doesn't allow dynamic intervals - Default is 20s intervals with 15 retries
+HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
+
+EXPOSE ${PORT} ${SSL_PORT}
 
 WORKDIR $APP_DIR
 
-CMD [ "boxlang", "message='BoxLang CLI is alive';println(message)" ]
+CMD $BUILD_DIR/run.sh

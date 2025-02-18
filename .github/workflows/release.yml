@@ -40,13 +40,13 @@ jobs:
         include:
           # Alpine builds
           # Disabling CLI builds temporarily
-          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK21.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JRE21.Dockerfile
             BUILD_IMAGE_TAG: cli
-          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK21.Web.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JRE21.Web.Dockerfile
             BUILD_IMAGE_TAG: miniserver
-          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JDK21.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JRE21.Dockerfile
             BUILD_IMAGE_TAG: cli-alpine
-          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JDK21.Web.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JRE21.Web.Dockerfile
             BUILD_IMAGE_TAG: miniserver-alpine
 
     steps:

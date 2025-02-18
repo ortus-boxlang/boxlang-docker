@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -56,4 +56,3 @@ RUN boxlang -c 2+2
 
 WORKDIR $APP_DIR
 
-CMD [ "boxlang", "message='BoxLang CLI is alive';println(message)" ]
