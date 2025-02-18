@@ -56,4 +56,3 @@ RUN boxlang -c 2+2
 
 WORKDIR $APP_DIR
 
-CMD [ "boxlang", "message='BoxLang CLI is alive';println(message)" ]
