@@ -52,7 +52,6 @@ jobs:
         id: imagescan
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
-          acs-report-enable: "true"
           fail-build: false
           severity-cutoff: "high"
 
