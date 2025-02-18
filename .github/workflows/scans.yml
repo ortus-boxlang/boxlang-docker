@@ -48,15 +48,16 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
 
       - name: Scan image
-        uses: anchore/scan-action@v3
+        uses: anchore/scan-action@v6
         id: imagescan
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
           acs-report-enable: "true"
           fail-build: false
+          severity-cutoff: "high"
 
-      - name: Upload Anchore Report
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Upload Anchore Scan report
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.imagescan.outputs.sarif }}
           category: ${{ matrix.BUILD_IMAGE_TAG }}
