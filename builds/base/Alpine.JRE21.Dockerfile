@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-jammy
+FROM eclipse-temurin:21-jre-alpine
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -18,6 +18,9 @@ ENV HOME /root
 # Alpine workgroup is root group
 ENV WORKGROUP root
 
+# Flag as an alpine release
+RUN touch /etc/alpine-release
+
 ### Directory Mappings ###
 
 # BIN_DIR = Where the box binary goes
@@ -34,16 +37,18 @@ WORKDIR $APP_DIR
 ENV BUILD_DIR $LIB_DIR/build
 WORKDIR $BUILD_DIR
 
-# Copy file system and test system
+# COMMANDBOX_HOME = Where CommmandBox Lives
+# ENV COMMANDBOX_HOME=$LIB_DIR/CommandBox
+
+# Copy file system
 COPY ./test/ ${APP_DIR}/
 COPY ./build/ ${BUILD_DIR}/
-
 # Ensure all workgroup users have permission on the build scripts
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
 # bx Installation
-RUN $BUILD_DIR/util/debian/install-dependencies.sh
+RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
 # Test it

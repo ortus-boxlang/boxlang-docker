@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre-noble
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
@@ -11,14 +11,12 @@ LABEL repository "https://github.com/ortus-boxlang/docker-boxlang"
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
-# Since alpine runs as a single user, we need to create a "root" direcotry
+# Since alpine runs as a single user, we need to create a "root" directory
+# This is where the BoxLang HOME will be stored /root/.boxlang
 ENV HOME /root
 
 # Alpine workgroup is root group
 ENV WORKGROUP root
-
-# Flag as an alpine release
-RUN touch /etc/alpine-release
 
 ### Directory Mappings ###
 
@@ -36,37 +34,17 @@ WORKDIR $APP_DIR
 ENV BUILD_DIR $LIB_DIR/build
 WORKDIR $BUILD_DIR
 
-# COMMANDBOX_HOME = Where CommmandBox Lives
-# ENV COMMANDBOX_HOME=$LIB_DIR/CommandBox
-
-# Copy file system
+# Copy file system and test system
 COPY ./test/ ${APP_DIR}/
 COPY ./build/ ${BUILD_DIR}/
+
 # Ensure all workgroup users have permission on the build scripts
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
 # bx Installation
-RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
+RUN $BUILD_DIR/util/debian/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
-
-# ENV
-ENV DEBUG false
-ENV HOST 0.0.0.0
-ENV PORT 8080
-ENV SSL_PORT 8443
-# ENV CONFIG_PATH /path/to/boxlang.json
-# All the JVM options to send to the mini server
-# ENV JAVA_OPTS "-Xmx512m -Xms256m"
-
-# Healthcheck environment variables
-ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
-
-# Our healthcheck interval doesn't allow dynamic intervals - Default is 20s intervals with 15 retries
-HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
-
-EXPOSE ${PORT} ${SSL_PORT}
 
 WORKDIR $APP_DIR
 
-CMD $BUILD_DIR/run.sh

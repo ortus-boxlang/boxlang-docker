@@ -59,7 +59,7 @@ We have added all the necessary information for you to develop on BoxLang in our
 
 ## Language Compatiblity
 
-Please make sure you use JDK21+.
+Boxlang requires JRE 21+
 
 ## Coding Styles & Formatting
 

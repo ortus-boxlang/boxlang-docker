@@ -16,9 +16,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK21.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JRE21.Dockerfile
             BUILD_IMAGE_TAG: cli
-          - BUILD_IMAGE_DOCKERFILE: builds/base/JDK21.Web.Dockerfile
+          - BUILD_IMAGE_DOCKERFILE: builds/base/JRE21.Web.Dockerfile
             BUILD_IMAGE_TAG: miniserver
 
     steps:
