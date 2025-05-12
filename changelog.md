@@ -9,15 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.0] - 2025-04-30
-
-## [1.1.0] - 2025-04-03
-
-## [1.1.0] - 2025-03-05
-
-## [1.1.0] - 2025-02-18
-
-## [1.1.0] - 2025-01-31
+- Fixed docker compose typos.
+- Updated to Boxlang 1.1.0.
 
 ## [1.1.0] - 2025-01-13
 
@@ -29,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.1.0...HEAD
 
-[1.1.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.1.0...v1.1.0
-
+[1.1.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.0.0...v1.1.0
 
 [1.0.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.0.0...v1.0.0
