@@ -21,7 +21,7 @@ concurrency:
 
 env:
     BOXLANG_VERSION: 1.1.0
-    IMAGE_VERSION: 1.1.0
+    IMAGE_VERSION: 1.1.1
     # if 'development' it's true, then it's a snapshot build
     SNAPSHOT: ${{ github.ref == 'refs/heads/development' }}
     BUILD_ID: ${{ github.run_number }}git

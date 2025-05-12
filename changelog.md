@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Fixed docker compose typos.
+- Updated to Boxlang 1.1.0.
 
 ## [1.1.0] - 2025-01-13
 
