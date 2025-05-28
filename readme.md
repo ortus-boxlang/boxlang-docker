@@ -101,3 +101,13 @@ The following environment variables can be used to configure the BoxLang Docker 
 * `BOXLANG_CONFIG_PATH` - The path to the BoxLang configuration file. Default: `/home/.boxlang/boxlang.json`
 * `JAVA_OPTS` - Java options for the MiniServer. Default: `-Xmx512m -Xms256m`
 * `BOXLANG_MODULES` - A comma-separated list of modules to install. Default: ``. Example: `bx-compat,bx-esapi,bx-mysql`
+
+### BoxLang Environment Variables
+
+Please note that BoxLang has the capacity to override any configuration setting via environment variables using the `BOXLANG_` prefix.  Click here for more information: https://boxlang.ortusbooks.com/getting-started/configuration#environment-variable-substitution
+
+Example:
+
+```bash
+BOXLANG_DEBUGMODE=true
+```
