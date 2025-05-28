@@ -20,8 +20,6 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    BOXLANG_VERSION: 1.1.0
-    IMAGE_VERSION: 1.2.0
     # if 'development' it's true, then it's a snapshot build
     SNAPSHOT: ${{ github.ref == 'refs/heads/development' }}
 
@@ -52,6 +50,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Read Version File
+        id: version
+        run: |
+          BOXLANG_VERSION=$(jq -r '.BOXLANG_VERSION' version.json)
+          IMAGE_VERSION=$(jq -r '.IMAGE_VERSION' version.json)
+          echo "BOXLANG_VERSION=${BOXLANG_VERSION}" >> $GITHUB_ENV
+          echo "IMAGE_VERSION=${IMAGE_VERSION}" >> $GITHUB_ENV
+          echo "boxlang_version=${BOXLANG_VERSION}" >> $GITHUB_OUTPUT
+          echo "image_version=${IMAGE_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
@@ -128,6 +136,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Read Version File
+        id: version
+        run: |
+          BOXLANG_VERSION=$(jq -r '.BOXLANG_VERSION' version.json)
+          IMAGE_VERSION=$(jq -r '.IMAGE_VERSION' version.json)
+          echo "BOXLANG_VERSION=${BOXLANG_VERSION}" >> $GITHUB_ENV
+          echo "IMAGE_VERSION=${IMAGE_VERSION}" >> $GITHUB_ENV
+
       - name: Update changelog [unreleased] with latest version
         uses: thomaseizinger/keep-a-changelog-new-release@2.0.0
         if: env.SNAPSHOT == 'false'
@@ -157,6 +173,14 @@ jobs:
             force_push_tag: true
             message: "Latest Release v${{ env.IMAGE_VERSION }}"
 
+      - name: Upload Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boxlang-build
+          path: |
+            changelog.md
+
       - name: Create Github Release
         uses: taiki-e/create-gh-release-action@v1.8.0
         continue-on-error: true
@@ -167,3 +191,45 @@ jobs:
             changelog: changelog.md
             token: ${{ secrets.GITHUB_TOKEN }}
             ref: refs/tags/v${{ env.IMAGE_VERSION }}
+
+  ##########################################################################################
+  # Prep Next Release
+  ##########################################################################################
+  prep_next_release:
+    name: Prep Next Release
+    if: github.ref != 'refs/heads/development'
+    runs-on: ubuntu-latest
+    needs: [artifacts]
+    permissions:
+      checks: write
+      contents: write
+    steps:
+      - name: Checkout Development Repository
+        uses: actions/checkout@v4
+        with:
+          ref: development
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: boxlang-build
+          path: .tmp
+
+      - name: Copy Changelog
+        run: |
+          cp .tmp/changelog.md changelog.md
+
+      - name: Bump Version
+        run: |
+          ./bump.sh
+          git pull
+
+      - name: Commit Version Bump
+        uses: EndBug/add-and-commit@v9.1.4
+        with:
+          author_name: Github Actions
+          author_email: info@ortussolutions.com
+          message: "Version bump"
+          add: |
+            version.json
+            changelog.md
