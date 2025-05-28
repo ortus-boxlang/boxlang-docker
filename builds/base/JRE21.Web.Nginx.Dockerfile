@@ -47,7 +47,7 @@ RUN $BUILD_DIR/util/debian/install-dependencies-nginx.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
 # Create nginx configuration
-COPY ./build/nginx/ /etc/nginx/
+COPY ./build/util/nginx/ /etc/nginx/
 
 # ENV
 ENV DEBUG false
