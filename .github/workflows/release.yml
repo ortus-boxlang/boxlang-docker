@@ -46,6 +46,8 @@ jobs:
             BUILD_IMAGE_TAG: cli-alpine
           - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JRE21.Web.Dockerfile
             BUILD_IMAGE_TAG: miniserver-alpine
+          - BUILD_IMAGE_DOCKERFILE: builds/base/Alpine.JRE21.Web+Nginx.Dockerfile
+            BUILD_IMAGE_TAG: miniserver-nginx
 
     steps:
       - name: Checkout
