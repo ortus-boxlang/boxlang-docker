@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Remove SSLPORT since MiniServer does not support SSL.
 - BoxLang version was wrongly fixed at 1.0.0-snapshot for `snapshot`
 
 ## [1.1.1] - 2025-05-12

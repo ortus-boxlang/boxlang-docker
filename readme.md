@@ -18,7 +18,8 @@
 
 ## Welcome to the BoxLang Docker Images
 
-This repo contains the Docker images for the BoxLang OS and MiniServer runtimes.  You can find the full documentation here: https://boxlang.ortusbooks.com/getting-started/running-boxlang/docker
+This repo contains the Docker images for the BoxLang Core Runtime and the BoxLang MiniServer runtime.
+You can find the full documentation here: https://boxlang.ortusbooks.com/getting-started/running-boxlang/docker
 
 ## What is BoxLang?
 
@@ -68,23 +69,54 @@ Visit us at [BoxLang.io Plans](https://boxlang.io/plans) for more information.
 
 ## Docker Images
 
-Two image tags are currently published to Docker Hub: https://hub.docker.com/r/ortussolutions/boxlang
+You can find all our published images and tags here: https://hub.docker.com/r/ortussolutions/boxlang.  Please see the [Environment Variables](#environment-variables) section for more information on how to configure the images for runtime and deployment.
 
-* `ortussolutions/boxlang:cli` - Just the BoxLang CLI in a container - you can pass expressions, or just run the cli itself
-* `ortussolutions/boxlang:miniserver` - This is our lightweight and fast MiniServer
+### CLI Images
+
+This image contains the BoxLang CLI, which allows you to run BoxLang scripts, CLI applications, commands, schedulers and any OS integrations.
+
+* `ortussolutions/boxlang:cli` - The latest BoxLang CLI image based on Debian Linux
+* `ortussolutions/boxlang:cli-alpine` - The latest snapshot of the BoxLang CLI image based on Alpine Linux
+* `ortussolutions/boxlang:cli-snapshot` - The latest snapshot of the BoxLang CLI image
+* `ortussolutions/boxlang:cli-alpine-snapshot` - The latest snapshot of the BoxLang CLI image on Alpine Linux
 
 ```bash
+# Pull the latest BoxLang CLI image
 docker pull ortussolutions/boxlang:cli
-docker pull ortussolutions/boxlang:miniserver
+# Run the BoxLang CLI version
+docker run --rm -it ortussolutions/boxlang:cli boxlang --version
+# Run the BoxLang REPL
+docker run --rm -it ortussolutions/boxlang:cli boxlang
+# Run a quick code snippet
+docker run --rm -it ortussolutions/boxlang:cli boxlang --bx-code "print('Hello, BoxLang!')"
+# Run a Task.bx script
+docker run --rm -it -v $(pwd):/app ortussolutions/boxlang:cli boxlang /app/Task.bx
+# Run a Scheduler.bx script
+docker run --rm -it -v $(pwd):/app ortussolutions/boxlang:cli boxlang /app/Scheduler.bx
 ```
 
-## Docker Tags
+### MiniServer Images
 
-Both images are tagged with the following tags:
+This image contains the BoxLang MiniServer, which is a lightweight web server that can run BoxLang applications, APIs and services. It is designed to be fast, lightweight, and easy to use.
 
-* `latest` - The latest stable release of BoxLang
-* `snapshot` - The latest snapshot release of BoxLang
-* `alpine-snapshot` - The latest snapshot release of BoxLang on Alpine Linux
+* `ortussolutions/boxlang:miniserver` - The latest BoxLang MiniServer image based on Debian Linux
+* `ortussolutions/boxlang:miniserver-alpine` - The latest snapshot of the BoxLang MiniServer image based on Alpine Linux
+* `ortussolutions/boxlang:miniserver-snapshot` - The latest snapshot of the BoxLang MiniServer image
+* `ortussolutions/boxlang:miniserver-alpine-snapshot` - The latest snapshot of the BoxLang MiniServer image on Alpine Linux
+
+The MiniServer will load the `/app` as the root directory of the server, so you can mount your BoxLang applications and services there. The MiniServer will also automatically load the `index.bxm` file as the default file to serve.  Rewrites are enabled by default, and you can configure them using the `REWRITES_FILE` environment variable.
+
+```bash
+# Pull the latest BoxLang MiniServer image
+docker pull ortussolutions/boxlang:miniserver
+# Run the BoxLang MiniServer with Rewrites Enabled
+docker run --rm -it -p 8080:8080 ortussolutions/boxlang:miniserver
+# Run the BoxLang MiniServer in debug mode
+docker run --rm -it -p 8080:8080 -e BOXLANG_DEBUG=true ortussolutions/boxlang:miniserver
+# Load a custom boxlang.json configuration file
+docker run --rm -it -p 8080:8080 -v $(pwd)/boxlang.json:/home/.boxlang/config/boxlang.json ortussolutions/boxlang:miniserver
+```
+
 
 ## Documentation
 
@@ -94,9 +126,9 @@ You can find our complete docs here: https://boxlang.ortusbooks.com/getting-star
 
 The following environment variables can be used to configure the BoxLang Docker images:
 
-* `BOXLANG_CONFIG_PATH` - The path to the BoxLang configuration file. Default: `/home/.boxlang/boxlang.json`
+* `BOXLANG_CONFIG_PATH` - The path to the BoxLang configuration file. Default: `/root/.boxlang/config/boxlang.json`
 * `BOXLANG_DEBUG` - Enable debugging. Default: `false`
-* `BOXLANG_HOME` - The home directory of the BoxLang installation. Default: `/home/.boxlang`
+* `BOXLANG_HOME` - The home directory of the BoxLang installation. Default: `/root/.boxlang`
 * `BOXLANG_HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
 * `BOXLANG_MODULES` - A comma-separated list of modules to install. Default: ``. Example: `bx-compat,bx-esapi,bx-mysql`
 * `BOXLANG_PORT` - The port the MiniServer will listen on. Default: `8080`
@@ -107,7 +139,6 @@ The following environment variables can be used to configure the BoxLang Docker 
 * `MAX_MEMORY:512m` - The maximum memory allocated to the BoxLang process. Default: `-Xmx512m`
 * `MIN_MEMORY:512m` - The minimum memory allocated to the BoxLang process. Default: `-Xms512m`
 * `PORT` - The port the MiniServer will listen on. Default: `8080`
-* `SSL_PORT` - The port the MiniServer will listen on for SSL connections. Default: `8443`
 * `REWRITES` - Enable URL rewrites. Default: `true`
 * `REWRITES_FILE` - The file containing the URL rewrites. Default: `index.bxm`
 

@@ -66,18 +66,33 @@ if [ -z "${BOXLANG_HOME}" ]; then
     export BOXLANG_HOME="$HOME/.boxlang"
 fi
 
+# If we don't have a BOXLANG_DEBUG set it to false
+if [ -z "${BOXLANG_DEBUG}" ]; then
+	export BOXLANG_DEBUG=false
+fi
+
 # If you have a DEBUG env variable set, we will start the server in debug mode
-if [[ $DEBUG == true ]]; then
-    export BOXLANG_DEBUG=true
+if [[ $DEBUG == true || $BOXLANG_DEBUG == true ]]; then
+	export BOXLANG_DEBUG=true
+	# Add a local variable called debugString
+	export debugString="--debug"
+else
+	export debugString=""
 fi
 
 # Rewrites
 if [[ $REWRITES == true ]]; then
 	export BOXLANG_REWRITES=true
 	export BOXLANG_REWRITE_FILE=${REWRITE_FILE}
+	export rewritesString="--rewrites ${REWRITE_FILE}"
+else
+	export BOXLANG_REWRITES=false
+	export rewritesString=""
 fi
 
 # Run our server
 boxlang-miniserver \
 	--host ${HOST} \
-	--port ${PORT}
+	--port ${PORT} \
+	${debugString} \
+	${rewritesString} \
