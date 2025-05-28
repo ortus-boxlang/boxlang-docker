@@ -24,7 +24,6 @@ env:
     IMAGE_VERSION: 1.2.0
     # if 'development' it's true, then it's a snapshot build
     SNAPSHOT: ${{ github.ref == 'refs/heads/development' }}
-    BUILD_ID: ${{ github.run_number }}git
 
 jobs:
   #############################################
@@ -69,15 +68,10 @@ jobs:
           DOCKER_IMAGE: ortussolutions/boxlang
           BUILD_IMAGE_TAG: ${{ matrix.BUILD_IMAGE_TAG }}
         run: |
-          # Tag Builds
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-
-            if [[ $BUILD_IMAGE_TAG == latest ]]; then
-              BUILD_IMAGE_TAG="${GITHUB_REF#refs/tags/v}"
-            else
-              BUILD_IMAGE_TAG="${BUILD_IMAGE_TAG}-${GITHUB_REF#refs/tags/v}"
-            fi
-
+          # Final builds
+          if [[ $GITHUB_REF == 'refs/heads/main' ]]; then
+            BUILD_IMAGE_TAG="${BUILD_IMAGE_TAG}-${BOXLANG_VERSION},${BUILD_IMAGE_TAG}"
+            BOXLANG_VERSION="${BOXLANG_VERSION}"
           # Snapshot builds
           elif [[ $GITHUB_REF == 'refs/heads/development' ]]; then
             BUILD_IMAGE_TAG="${BUILD_IMAGE_TAG}-snapshot"
@@ -106,7 +100,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Final
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         env:
           DOCKER_BUILDKIT: 1
         with:

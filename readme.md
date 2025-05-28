@@ -114,9 +114,8 @@ docker run --rm -it -p 8080:8080 ortussolutions/boxlang:miniserver
 # Run the BoxLang MiniServer in debug mode
 docker run --rm -it -p 8080:8080 -e BOXLANG_DEBUG=true ortussolutions/boxlang:miniserver
 # Load a custom boxlang.json configuration file
-docker run --rm -it -p 8080:8080 -v $(pwd)/boxlang.json:/home/.boxlang/config/boxlang.json ortussolutions/boxlang:miniserver
+docker run --rm -it -p 8080:8080 -v $(pwd)/boxlang.json:/root/.boxlang/config/boxlang.json ortussolutions/boxlang:miniserver
 ```
-
 
 ## Documentation
 
