@@ -21,6 +21,14 @@ NGINX_PID=$!
 # Wait briefly for NGINX to settle
 sleep 2
 
+# Check if the NGINX process started successfully
+if ! kill -0 $NGINX_PID 2>/dev/null; then
+	echo "Failed to start nginx."
+	exit 1
+else
+	echo "NGINX started with PID $NGINX_PID."
+fi
+
 # Start BoxLang in the foreground
 echo "Starting BoxLang application..."
 exec $BUILD_DIR/run.sh
