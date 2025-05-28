@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New docs for all env variables
+- Inline depdnency cleaning
+- Added rewrites env variables: `REWRITES=true` and `REWRITES_FILE=index.cfm`
+- Added min and max memory options: `max_memory` and `min_memory` which defaults to `-Xmx512m` and `-Xms512m` respectively.
+- Added `JAVA_OPTS` environment variable to allow users to pass in custom Java options.
+- Added `-Djava.awt.headless=true` to the Java options to ensure headless mode is enabled by default.
+
+### Fixed
+
+- BoxLang version was wrongly fixed at 1.0.0-snapshot for `snapshot`
+
+## [1.1.1] - 2025-05-12
+
 - Fixed docker compose typos.
 - Updated to Boxlang 1.1.0.
 
@@ -20,7 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First beta 1 release
 
-[Unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.1.1...HEAD
+
+[1.1.1]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.1.0...v1.1.1
 
 [1.1.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.0.0...v1.1.0
 

@@ -51,9 +51,18 @@ ENV DEBUG false
 ENV HOST 0.0.0.0
 ENV PORT 8080
 ENV SSL_PORT 8443
+# Add an env for max memory
+ENV MAX_MEMORY "512m"
+# Add an env for min memory
+ENV MIN_MEMORY "512m"
+# Rewrites enabled
+ENV REWRITES true
+# Rewrite File
+ENV REWRITE_FILE "index.bxm"
+# JAVA Options
+ENV JAVA_OPTS "-Xmx${MAX_MEMORY} -Xms${MIN_MEMORY} -Djava.awt.headless=true"
 # ENV CONFIG_PATH /path/to/boxlang.json
 # All the JVM options to send to the mini server
-# ENV JAVA_OPTS "-Xmx512m -Xms256m"
 
 # Healthcheck environment variables
 ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"

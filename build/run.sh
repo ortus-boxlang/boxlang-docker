@@ -71,5 +71,13 @@ if [[ $DEBUG == true ]]; then
     export BOXLANG_DEBUG=true
 fi
 
+# Rewrites
+if [[ $REWRITES == true ]]; then
+	export BOXLANG_REWRITES=true
+	export BOXLANG_REWRITE_FILE=${REWRITE_FILE}
+fi
+
 # Run our server
-boxlang-miniserver --host ${HOST} --port ${PORT}
+boxlang-miniserver \
+	--host ${HOST} \
+	--port ${PORT}

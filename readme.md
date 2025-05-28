@@ -94,13 +94,26 @@ You can find our complete docs here: https://boxlang.ortusbooks.com/getting-star
 
 The following environment variables can be used to configure the BoxLang Docker images:
 
-* `BOXLANG_HOME` - The home directory of the BoxLang installation. Default: `/home/.boxlang`
-* `BOXLANG_PORT` - The port the MiniServer will listen on. Default: `8080`
-* `BOXLANG_HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
-* `BOXLANG_DEBUG` - Enable debugging. Default: `false`
 * `BOXLANG_CONFIG_PATH` - The path to the BoxLang configuration file. Default: `/home/.boxlang/boxlang.json`
-* `JAVA_OPTS` - Java options for the MiniServer. Default: `-Xmx512m -Xms256m`
+* `BOXLANG_DEBUG` - Enable debugging. Default: `false`
+* `BOXLANG_HOME` - The home directory of the BoxLang installation. Default: `/home/.boxlang`
+* `BOXLANG_HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
 * `BOXLANG_MODULES` - A comma-separated list of modules to install. Default: ``. Example: `bx-compat,bx-esapi,bx-mysql`
+* `BOXLANG_PORT` - The port the MiniServer will listen on. Default: `8080`
+* `DEBUG` - Enable debug mode. Default: `false`
+* `JAVA_OPTS` - Java options for the MiniServer. Default is `-Djava.awt.headless=true`
+* `HEALTHCHECK_URI` - The URI for the health check endpoint. Default: `http://127.0.0.1:${PORT}/`
+* `HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
+* `MAX_MEMORY:512m` - The maximum memory allocated to the BoxLang process. Default: `-Xmx512m`
+* `MIN_MEMORY:512m` - The minimum memory allocated to the BoxLang process. Default: `-Xms512m`
+* `PORT` - The port the MiniServer will listen on. Default: `8080`
+* `SSL_PORT` - The port the MiniServer will listen on for SSL connections. Default: `8443`
+* `REWRITES` - Enable URL rewrites. Default: `true`
+* `REWRITES_FILE` - The file containing the URL rewrites. Default: `index.bxm`
+
+### Health Check
+
+The Docker images include a health check that will ping the MiniServer's root endpoint to ensure it is running. The health check can be configured using the `HEALTHCHECK_URI` environment variable, which defaults to `http://127.0.1:${PORT}/`. The health check will run on an interval of 20 seconds, timeout of 30 seconds and 15 retries before marking the container as unhealthy.
 
 ### BoxLang Environment Variables
 
