@@ -80,15 +80,15 @@ jobs:
         run: |
           # Final builds
           if [[ $GITHUB_REF == 'refs/heads/main' ]]; then
-            BUILD_IMAGE_TAG="${BUILD_IMAGE_TAG}-${BOXLANG_VERSION},${BUILD_IMAGE_TAG}"
+            BUILD_IMAGE_TAG="${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}-${BOXLANG_VERSION},${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}"
             BOXLANG_VERSION="${BOXLANG_VERSION}"
           # Snapshot builds
           elif [[ $GITHUB_REF == 'refs/heads/development' ]]; then
-            BUILD_IMAGE_TAG="${BUILD_IMAGE_TAG}-snapshot"
+            BUILD_IMAGE_TAG="${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}-snapshot"
             BOXLANG_VERSION="snapshot"
           fi
 
-          TAGS="${DOCKER_IMAGE}:${BUILD_IMAGE_TAG}"
+          TAGS="${BUILD_IMAGE_TAG}"
 
           if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
             ARCH_PLATFORMS=linux/amd64
