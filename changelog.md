@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New docs for all env variables
+- Inline depdnency cleaning
+- Added rewrites env variables: `REWRITES=true` and `REWRITES_FILE=index.cfm`
+- Added min and max memory options: `max_memory` and `min_memory` which defaults to `-Xmx512m` and `-Xms512m` respectively.
+- Added `JAVA_OPTS` environment variable to allow users to pass in custom Java options.
+- Added `-Djava.awt.headless=true` to the Java options to ensure headless mode is enabled by default.
+
+### Fixed
+
+- Remove SSLPORT since MiniServer does not support SSL.
+- BoxLang version was wrongly fixed at 1.0.0-snapshot for `snapshot`
+
 ## [1.1.1] - 2025-05-12
 
 - Fixed docker compose typos.

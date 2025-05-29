@@ -50,10 +50,18 @@ RUN $BUILD_DIR/util/install-bx.sh
 ENV DEBUG false
 ENV HOST 0.0.0.0
 ENV PORT 8080
-ENV SSL_PORT 8443
+# Add an env for max memory
+ENV MAX_MEMORY "512m"
+# Add an env for min memory
+ENV MIN_MEMORY "512m"
+# Rewrites enabled
+ENV REWRITES true
+# Rewrite File
+ENV REWRITE_FILE "index.bxm"
+# JAVA Options
+ENV JAVA_OPTS "-Xmx${MAX_MEMORY} -Xms${MIN_MEMORY} -Djava.awt.headless=true"
 # ENV CONFIG_PATH /path/to/boxlang.json
 # All the JVM options to send to the mini server
-# ENV JAVA_OPTS "-Xmx512m -Xms256m"
 
 # Healthcheck environment variables
 ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
@@ -61,7 +69,7 @@ ENV HEALTHCHECK_URI "http://127.0.0.1:${PORT}/"
 # Our healthcheck interval doesn't allow dynamic intervals - Default is 20s intervals with 15 retries
 HEALTHCHECK --interval=20s --timeout=30s --retries=15 CMD curl --fail ${HEALTHCHECK_URI} || exit 1
 
-EXPOSE ${PORT} ${SSL_PORT}
+EXPOSE ${PORT}
 
 WORKDIR $APP_DIR
 
