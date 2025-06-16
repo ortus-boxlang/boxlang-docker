@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Handle secret expansion before any other environmental variables are processed
+. $BUILD_DIR/util/env-secrets-expand.sh
+
 # If a custom user is requested set it before we begin
 if [[ $USER ]] && [[ $USER != $(whoami) ]]; then
     # logMessage 'INFO' "Configuration set to non-root user: ${USER}"
