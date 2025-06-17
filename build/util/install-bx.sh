@@ -12,7 +12,7 @@ fi
 
 # Use our quick installer
 cd /tmp
-/bin/bash -c "$(curl -fsSL https://install.boxlang.io)"
+/bin/bash -c "$(curl -fsSL https://install.boxlang.io) --without-commandbox"
 
 chmod +x install-boxlang.sh
 
