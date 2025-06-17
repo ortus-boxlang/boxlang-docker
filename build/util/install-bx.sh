@@ -14,9 +14,3 @@ fi
 cd /tmp
 /bin/bash -c "$(curl -fsSL https://install.boxlang.io) --without-commandbox"
 
-chmod +x install-boxlang.sh
-
-install-boxlang $BOXLANG_VERSION
-
-# Clean up
-rm -f install-boxlang.sh
