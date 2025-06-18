@@ -12,5 +12,5 @@ fi
 
 # Use our quick installer
 cd /tmp
-/bin/bash -c "$(curl -fsSL https://install.boxlang.io) --without-commandbox"
 
+curl -fsSL https://install.boxlang.io | /bin/bash -s -- --without-commandbox
