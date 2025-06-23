@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- BoxLang 1.3.0 support
+- Update to use new quick installer
+- Add secret expansions
+
 ## [1.2.0] - 2025-05-29
 
 ### Added
