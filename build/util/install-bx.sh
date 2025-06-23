@@ -12,10 +12,7 @@ fi
 
 # Use our quick installer
 cd /tmp
-curl -fsSL https://downloads.ortussolutions.com/ortussolutions/boxlang/install-boxlang.sh -o install-boxlang.sh
 
-chmod +x install-boxlang.sh
-./install-boxlang.sh $BOXLANG_VERSION
+export TERM=xterm-256color
 
-# Clean up
-rm -f install-boxlang.sh
+curl -fsSL https://install.boxlang.io | /bin/bash -s -- --without-commandbox
