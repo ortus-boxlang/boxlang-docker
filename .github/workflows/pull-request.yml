@@ -58,7 +58,7 @@ jobs:
           echo "IMAGE_TAG=${TAGS}" >> $GITHUB_ENV
 
       - name: Build Test Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         env:
           DOCKER_BUILDKIT: 1
         with:
