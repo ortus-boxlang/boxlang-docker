@@ -54,19 +54,17 @@ if [[ $USER ]] && [[ $USER != $(whoami) ]]; then
 
 fi
 
-# Do we have modules to install? Iterate over the BOXLANG_MODULES environment variable and call the install-bx-module.sh script
-if [[ $BOXLANG_MODULES ]]; then
-    for module in $(echo $BOXLANG_MODULES | tr "," "\n"); do
-        install-bx-module $module
-    done
-fi
-
 # Go to the app directory where we will run the server
 cd $APP_DIR
 
 # If we don't have a BOXLANG_HOME set, let's set it
 if [ -z "${BOXLANG_HOME}" ]; then
     export BOXLANG_HOME="$HOME/.boxlang"
+fi
+
+# If we don't have a BOXLANG_INSTALL_HOME set, let's set it
+if [ -z "${BOXLANG_INSTALL_HOME}" ]; then
+	export BOXLANG_INSTALL_HOME="/usr/local/boxlang"
 fi
 
 # If we don't have a BOXLANG_DEBUG set it to false
@@ -91,6 +89,13 @@ if [[ $REWRITES == true ]]; then
 else
 	export BOXLANG_REWRITES=false
 	export rewritesString=""
+fi
+
+# Do we have modules to install? Iterate over the BOXLANG_MODULES environment variable and call the install-bx-module.sh script
+if [[ $BOXLANG_MODULES ]]; then
+    for module in $(echo $BOXLANG_MODULES | tr "," "\n"); do
+        install-bx-module $module
+    done
 fi
 
 # Run our server
