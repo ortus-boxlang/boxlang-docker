@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Read versions from `version.json` file in GitHub Actions workflow.
+
+### Fixed
+
+- Fixed changelog merge issues.
+- New script for installer to avoid helpers.sh issue.
+
 ## [1.3.0] - 2025-06-23
 
 ### Added
