@@ -93,6 +93,8 @@ fi
 
 # Do we have modules to install? Iterate over the BOXLANG_MODULES environment variable and call the install-bx-module.sh script
 if [[ $BOXLANG_MODULES ]]; then
+    # Ensure to setup a terminal for install-bx-module
+    export TERM=${TERM:-xterm-256color}
     for module in $(echo $BOXLANG_MODULES | tr "," "\n"); do
         install-bx-module $module
     done
