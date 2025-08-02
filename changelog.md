@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- New BoxLang 1.4.0 support.
+- New Quick Installer for BoxLang.
+- Depandabot configuration for automatic dependency updates.
+
+### Fixed
+
+- xTerm issues when running boxlang commands in the container.
+
+## [1.4.0] - 2025-07-11
+
+### Added
+
 - Read versions from `version.json` file in GitHub Actions workflow.
 
 ### Fixed

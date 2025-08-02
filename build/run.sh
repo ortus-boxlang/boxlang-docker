@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# We need this in case the target OS we are installing in does not have a `TERM` implementation declared
+# or when TERM is set to problematic values like "unknown" (common in CI environments like GitHub Actions)
+if [ -z "$TERM" ] || [ "$TERM" = "unknown" ] || [ "$TERM" = "dumb" ]; then
+	export TERM="xterm-256color"
+fi
+
 # Handle secret expansion before any other environmental variables are processed
 . $BUILD_DIR/util/env-secrets-expand.sh
 
