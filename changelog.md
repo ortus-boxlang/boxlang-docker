@@ -9,7 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.4.0] - 2025-07-11
+### Fixed
+
+- Fixed an issue where the `BOXLANG_MODULES` environment variable would throw an error when set due to a config collision
+
+### Changed
+
+- Add pre-dependendency install upgrades of packages to ensure latest security patches are applied
+
+## [1.4.0] - 2025-08-02
 
 ### Added
 

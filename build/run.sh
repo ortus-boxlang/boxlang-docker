@@ -104,6 +104,9 @@ if [[ $BOXLANG_MODULES ]]; then
     done
 fi
 
+# Unset our environment variable so it does not get picked up as a config override
+unset BOXLANG_MODULES;
+
 # Run our server
 boxlang-miniserver \
 	--host ${HOST} \
