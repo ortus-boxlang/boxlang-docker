@@ -1,4 +1,16 @@
-<bx:if structKeyExists( url, "debug" )>
+<bx:script>
+	system = createObject( "java", "java.lang.System" );
+	env = system.getenv();
+	// only show the debugging link if we are in debug mode or development
+	debugEnabled = structKeyExists( env, "ENVIRONMENT" )
+					? ( env.ENVIRONMENT == "development" )
+					: (
+						structKeyExists( env, "BOXLANG_DEBUG" )
+						? ( env.BOXLANG_DEBUG == "true" )
+						: false
+					);
+</bx:script>
+<bx:if debugEnabled && structKeyExists( url, "debug" )>
 	<bx:script>
 		system = createObject( "java", "java.lang.System" );
 		env = system.getenv();
@@ -32,8 +44,10 @@
 				Welcome to the BoxLang MiniServer!
 			</div>
 		</h1>
+		<bx:if debugEnabled>
 		<p style="text-align: center">
 			If you want to see some debugging information for this instance, click on the debug link: <a href="index.bxm?debug=all">see debugging</a>
 		</p>
+		</bx:if>
 	</body>
 </bx:if>
