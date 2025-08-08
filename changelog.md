@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2025-08-08
+
 ### Fixed
 
 - Fixed an issue where the `BOXLANG_MODULES` environment variable would throw an error when set due to a config collision
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add pre-dependendency install upgrades of packages to ensure latest security patches are applied
 
+## [1.4.0] - 2025-08-02
 
 ### Added
 
@@ -86,7 +89,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * * *
 
-[unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.4.0...HEAD
+[unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.1.1...v1.2.0
