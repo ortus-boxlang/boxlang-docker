@@ -87,7 +87,12 @@ else
 	export debugString=""
 fi
 
-# Rewrites
+# If REWRITE_FILE doesn't exist or it is empty, default it to index.bxm
+if [ -z "${REWRITE_FILE}" ]; then
+	export REWRITE_FILE="index.bxm"
+fi
+
+# Rewrites Enabled
 if [[ $REWRITES == true ]]; then
 	export BOXLANG_REWRITES=true
 	export BOXLANG_REWRITE_FILE=${REWRITE_FILE}

@@ -63,8 +63,10 @@ jobs:
         id: imagescan
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
-          fail-build: false
           severity-cutoff: "high"
+          fail-build: false
+          by-cve: true
+          only-fixed: true
 
       - name: Upload Anchore Scan report
         uses: github/codeql-action/upload-sarif@v3
