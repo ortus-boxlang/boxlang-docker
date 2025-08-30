@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to BoxLang 1.5.0
 - Updated the rewrite file to default to `index.bxm` when not set or empty
 
+* * *
+
 ## [1.4.1] - 2025-08-08
 
 ### Fixed
@@ -24,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add pre-dependendency install upgrades of packages to ensure latest security patches are applied
 
+* * *
+
 ## [1.4.0] - 2025-08-02
 
 ### Added
@@ -31,21 +35,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New BoxLang 1.4.0 support.
 - New Quick Installer for BoxLang.
 - Depandabot configuration for automatic dependency updates.
-
-### Fixed
-
-- xTerm issues when running boxlang commands in the container.
-
-## [1.4.0] - 2025-07-11
-
-### Added
-
 - Read versions from `version.json` file in GitHub Actions workflow.
 
 ### Fixed
 
+- xTerm issues when running boxlang commands in the container.
 - Fixed changelog merge issues.
 - New script for installer to avoid helpers.sh issue.
+
+* * *
 
 ## [1.3.0] - 2025-06-23
 
