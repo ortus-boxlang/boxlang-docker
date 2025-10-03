@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Read version from version.json
         id: version
@@ -59,7 +59,7 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
 
       - name: Scan image
-        uses: anchore/scan-action@v6
+        uses: anchore/scan-action@v7
         id: imagescan
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
