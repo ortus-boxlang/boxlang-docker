@@ -59,7 +59,7 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
 
       - name: Scan image
-        uses: anchore/scan-action@v6
+        uses: anchore/scan-action@v7
         id: imagescan
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ matrix.BUILD_IMAGE_TAG }}
