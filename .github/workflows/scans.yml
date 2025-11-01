@@ -69,7 +69,7 @@ jobs:
           only-fixed: true
 
       - name: Upload Anchore Scan report
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ${{ steps.imagescan.outputs.sarif }}
           category: ${{ matrix.BUILD_IMAGE_TAG }}
