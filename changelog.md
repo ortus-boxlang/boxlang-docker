@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2025-11-04
+
 ## [1.6.0] - 2025-10-03
 
 - Updated to BoxLang 1.6.0
@@ -101,7 +103,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * * *
 
-[unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.6.0...HEAD
+[unreleased]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/ortus-boxlang/boxlang-docker/compare/v1.4.0...v1.4.1
