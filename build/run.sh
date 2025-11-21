@@ -113,24 +113,25 @@ fi
 unset BOXLANG_MODULES;
 
 # Handle JAVA_OPTS configuration
-# If MIN_MEMORY or MAX_MEMORY are provided, rebuild JAVA_OPTS with those values
-if [[ -n "${MIN_MEMORY}" ]] || [[ -n "${MAX_MEMORY}" ]]; then
-    # Set defaults if only one is provided
+# If MIN_MEMORY or MAX_MEMORY are provided and differ from defaults, rebuild JAVA_OPTS with those values
+if [[ -n "${MIN_MEMORY}" && "${MIN_MEMORY}" != "512m" ]] || [[ -n "${MAX_MEMORY}" && "${MAX_MEMORY}" != "512m" ]]; then
     MIN_MEMORY=${MIN_MEMORY:-512m}
     MAX_MEMORY=${MAX_MEMORY:-512m}
-    
-    # Check if JAVA_OPTS already has heap settings - preserve other options if present
-    if [[ $JAVA_OPTS =~ -Xms && $JAVA_OPTS =~ -Xmx ]]; then
-        # Remove existing heap settings and rebuild
-        JAVA_OPTS_CLEAN=$(echo "$JAVA_OPTS" | sed -E 's/-Xms[^ ]+//g; s/-Xmx[^ ]+//g; s/  +/ /g; s/^ //; s/ $//')
-        export JAVA_OPTS="-Xms${MIN_MEMORY} -Xmx${MAX_MEMORY} ${JAVA_OPTS_CLEAN}"
-    else
-        # No heap settings exist, prepend them
-        export JAVA_OPTS="-Xms${MIN_MEMORY} -Xmx${MAX_MEMORY} ${JAVA_OPTS}"
-    fi
+
+    # Remove any existing heap settings and rebuild JAVA_OPTS
+    JAVA_OPTS_CLEAN=""
+    for opt in $JAVA_OPTS; do
+        if [[ $opt != -Xms* && $opt != -Xmx* ]]; then
+            JAVA_OPTS_CLEAN="$JAVA_OPTS_CLEAN $opt"
+        fi
+    done
+    # Trim leading space
+    JAVA_OPTS_CLEAN="${JAVA_OPTS_CLEAN## }"
+
+    export JAVA_OPTS="-Xms${MIN_MEMORY} -Xmx${MAX_MEMORY} ${JAVA_OPTS_CLEAN}"
 fi
 
-# If JAVA_OPTS is still not set (shouldn't happen with Dockerfile defaults), set minimal default
+# If JAVA_OPTS is still not set (base Dockerfiles don't set defaults), set minimal default
 if [ -z "${JAVA_OPTS}" ]; then
     export JAVA_OPTS="-Xms512m -Xmx512m -Djava.awt.headless=true"
 fi
