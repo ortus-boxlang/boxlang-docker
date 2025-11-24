@@ -66,9 +66,7 @@ ENV REWRITE_FILE "index.bxm"
 # JAVA Options
 ENV JAVA_OPTS "-Xmx${MAX_MEMORY} -Xms${MIN_MEMORY} -Djava.awt.headless=true"
 # ENV CONFIG_PATH /path/to/boxlang.json
-
-# All the JVM options to send to the mini server BOXLANG_MINISERVER_OPTS
-ENV BOXLANG_MINISERVER_OPTS="${JAVA_OPTS}"
+# All the JVM options to send to the mini server
 
 # Healthcheck environment variables
 ENV HEALTHCHECK_URI "http://127.0.0.1:${NGINX_PORT}/"

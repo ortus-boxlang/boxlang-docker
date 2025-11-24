@@ -112,6 +112,30 @@ fi
 # Unset our environment variable so it does not get picked up as a config override
 unset BOXLANG_MODULES;
 
+# Handle JAVA_OPTS configuration
+# If MIN_MEMORY or MAX_MEMORY are provided and differ from defaults, rebuild JAVA_OPTS with those values
+if [[ -n "${MIN_MEMORY}" && "${MIN_MEMORY}" != "512m" ]] || [[ -n "${MAX_MEMORY}" && "${MAX_MEMORY}" != "512m" ]]; then
+    MIN_MEMORY=${MIN_MEMORY:-512m}
+    MAX_MEMORY=${MAX_MEMORY:-512m}
+
+    # Remove any existing heap settings and rebuild JAVA_OPTS
+    JAVA_OPTS_CLEAN=""
+    for opt in $JAVA_OPTS; do
+        if [[ $opt != -Xms* && $opt != -Xmx* ]]; then
+            JAVA_OPTS_CLEAN="$JAVA_OPTS_CLEAN $opt"
+        fi
+    done
+    # Trim leading space
+    JAVA_OPTS_CLEAN="${JAVA_OPTS_CLEAN## }"
+
+    export JAVA_OPTS="-Xms${MIN_MEMORY} -Xmx${MAX_MEMORY} ${JAVA_OPTS_CLEAN}"
+fi
+
+# If JAVA_OPTS is still not set (base Dockerfiles don't set defaults), set minimal default
+if [ -z "${JAVA_OPTS}" ]; then
+    export JAVA_OPTS="-Xms512m -Xmx512m -Djava.awt.headless=true"
+fi
+
 # Run our server
 boxlang-miniserver \
 	--host ${HOST} \

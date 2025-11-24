@@ -42,21 +42,8 @@ COPY ./build/ ${BUILD_DIR}/
 RUN chown -R nobody:${WORKGROUP} $BUILD_DIR
 RUN chmod -R +x $BUILD_DIR
 
-# Add an env for max memory
-ENV MAX_MEMORY "512m"
-# Add an env for min memory
-ENV MIN_MEMORY "512m"
-
-# JAVA Options
-ENV JAVA_OPTS "-Xmx${MAX_MEMORY} -Xms${MIN_MEMORY} -Djava.awt.headless=true"
-# ENV CONFIG_PATH /path/to/boxlang.json
-
-# All the JVM options to send to the mini server BOXLANG_MINISERVER_OPTS
-ENV BOXLANG_MINISERVER_OPTS="${JAVA_OPTS}"
-
 # bx Installation
 RUN $BUILD_DIR/util/debian/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
 WORKDIR $APP_DIR
-
