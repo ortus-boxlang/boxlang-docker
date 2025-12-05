@@ -47,4 +47,3 @@ RUN $BUILD_DIR/util/debian/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
 WORKDIR $APP_DIR
-

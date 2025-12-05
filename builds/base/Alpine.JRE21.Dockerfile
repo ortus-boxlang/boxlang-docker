@@ -55,4 +55,3 @@ RUN $BUILD_DIR/util/install-bx.sh
 RUN boxlang -c 2+2
 
 WORKDIR $APP_DIR
-
