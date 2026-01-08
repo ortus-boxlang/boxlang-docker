@@ -9,9 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Updated to BoxLang 1.9.0
+- <https://boxlang.ortusbooks.com/readme/release-history/1.9.0>
+
 ## [1.8.0] - 2025-12-05
 
+- Updated to BoxLang 1.8.0
+- <https://boxlang.ortusbooks.com/readme/release-history/1.8.0>
+
 ## [1.7.0] - 2025-11-04
+
+- Updated to BoxLang 1.7.0
+- <https://boxlang.ortusbooks.com/readme/release-history/1.7.0>
 
 ## [1.6.0] - 2025-10-03
 
