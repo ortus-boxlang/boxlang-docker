@@ -52,6 +52,6 @@ RUN source $BUILD_DIR/util/alpine/install-dependencies.sh
 RUN $BUILD_DIR/util/install-bx.sh
 
 # Test it
-RUN boxlang -c 2+2
+RUN boxlang --bx-code 2+2
 
 WORKDIR $APP_DIR
