@@ -1,5 +1,27 @@
 #!/bin/bash
 
+################################################################################
+# Docker Secrets Expansion Script
+#
+# This script automatically expands environment variables from Docker secrets
+# at container startup using the SECRET placeholder pattern:
+#
+# SECRET Placeholder Pattern:
+#    ENV_VAR=<<SECRET:my-secret-name>>
+#    Reads from /run/secrets/my-secret-name and sets ENV_VAR to the content
+#
+# Example:
+#    DATABASE_PASSWORD=<<SECRET:db_password>>
+#    Will read /run/secrets/db_password and set DATABASE_PASSWORD to its content
+#
+# Usage:
+# This script is automatically sourced by /usr/local/lib/build/run.sh
+# at container startup. No manual invocation needed.
+#
+# Debug Mode:
+# Set ENV_SECRETS_DEBUG=true to enable debug logging of secret expansion
+################################################################################
+
 # credit: https://medium.com/@basi/docker-environment-variables-expanded-from-secrets-8fa70617b3bc
 
 : ${ENV_SECRETS_DIR:=/run/secrets}
@@ -20,22 +42,12 @@ env_secret_expand() {
     local var="$1"
     eval local val=\$$var
     local secret_name=$(expr match "$val" "<<SECRET:\([^}]\+\)>>$")
-    
+
     if [[ $secret_name ]]; then
         local secret="${ENV_SECRETS_DIR}/${secret_name}"
-    elif [[ ${var:(-5)} = '_FILE' ]]; then
-        local suffix=${var:(-5)}
-        local secret=$val
-    fi
-
-    if [[ $secret ]]; then
         env_secret_debug "Secret file for $var: $secret"
         if [ -f "$secret" ]; then
             val=$(cat "${secret}")
-            if [ $suffix ]; then
-                echo "Expanding from _FILE suffix"
-                var=$(echo $var | rev | cut -d '_' -f 2- | rev);
-            fi
             export "$var"="$val"
             env_secret_debug "Expanded variable: $var=$val"
         else

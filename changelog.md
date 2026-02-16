@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Temporary removal of `_FILE` env variable support, due to collisions.
+
 ## [1.12.0] - 2026-02-04
 
 ## [1.11.0] - 2026-02-03
