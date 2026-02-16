@@ -4,22 +4,15 @@
 # Docker Secrets Expansion Script
 #
 # This script automatically expands environment variables from Docker secrets
-# at container startup. It supports two expansion patterns:
+# at container startup using the SECRET placeholder pattern:
 #
-# 1. SECRET Placeholder Pattern:
+# SECRET Placeholder Pattern:
 #    ENV_VAR=<<SECRET:my-secret-name>>
 #    Reads from /run/secrets/my-secret-name and sets ENV_VAR to the content
 #
-# 2. _FILE Suffix Pattern:
-#    ENV_VAR_FILE=/path/to/secret/file
-#    Reads the file and sets ENV_VAR (without _FILE suffix) to the content
-#    Example: DATABASE_PASSWORD_FILE=/run/secrets/db_password
-#             → Sets DATABASE_PASSWORD to the file contents
-#
-# Exclusions:
-# Certain BoxLang/MiniServer configuration variables ending in _FILE are
-# excluded from expansion (e.g., REWRITE_FILE, REWRITES_FILE) as they
-# are legitimate config values, not secret file paths.
+# Example:
+#    DATABASE_PASSWORD=<<SECRET:db_password>>
+#    Will read /run/secrets/db_password and set DATABASE_PASSWORD to its content
 #
 # Usage:
 # This script is automatically sourced by /usr/local/lib/build/run.sh
@@ -50,24 +43,11 @@ env_secret_expand() {
     eval local val=\$$var
     local secret_name=$(expr match "$val" "<<SECRET:\([^}]\+\)>>$")
 
-    # Exclude known BoxLang/MiniServer config variables from secret expansion
-    local excluded_vars="REWRITE_FILE REWRITES_FILE"
-
     if [[ $secret_name ]]; then
         local secret="${ENV_SECRETS_DIR}/${secret_name}"
-    elif [[ ${var:(-5)} = '_FILE' ]] && [[ ! " $excluded_vars " =~ " $var " ]]; then
-        local suffix=${var:(-5)}
-        local secret=$val
-    fi
-
-    if [[ $secret ]]; then
         env_secret_debug "Secret file for $var: $secret"
         if [ -f "$secret" ]; then
             val=$(cat "${secret}")
-            if [ $suffix ]; then
-                echo "Expanding from _FILE suffix"
-                var=$(echo $var | rev | cut -d '_' -f 2- | rev);
-            fi
             export "$var"="$val"
             env_secret_debug "Expanded variable: $var=$val"
         else
