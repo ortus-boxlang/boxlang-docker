@@ -1,5 +1,34 @@
 #!/bin/bash
 
+################################################################################
+# Docker Secrets Expansion Script
+#
+# This script automatically expands environment variables from Docker secrets
+# at container startup. It supports two expansion patterns:
+#
+# 1. SECRET Placeholder Pattern:
+#    ENV_VAR=<<SECRET:my-secret-name>>
+#    Reads from /run/secrets/my-secret-name and sets ENV_VAR to the content
+#
+# 2. _FILE Suffix Pattern:
+#    ENV_VAR_FILE=/path/to/secret/file
+#    Reads the file and sets ENV_VAR (without _FILE suffix) to the content
+#    Example: DATABASE_PASSWORD_FILE=/run/secrets/db_password
+#             → Sets DATABASE_PASSWORD to the file contents
+#
+# Exclusions:
+# Certain BoxLang/MiniServer configuration variables ending in _FILE are
+# excluded from expansion (e.g., REWRITE_FILE, REWRITES_FILE) as they
+# are legitimate config values, not secret file paths.
+#
+# Usage:
+# This script is automatically sourced by /usr/local/lib/build/run.sh
+# at container startup. No manual invocation needed.
+#
+# Debug Mode:
+# Set ENV_SECRETS_DEBUG=true to enable debug logging of secret expansion
+################################################################################
+
 # credit: https://medium.com/@basi/docker-environment-variables-expanded-from-secrets-8fa70617b3bc
 
 : ${ENV_SECRETS_DIR:=/run/secrets}
@@ -20,10 +49,13 @@ env_secret_expand() {
     local var="$1"
     eval local val=\$$var
     local secret_name=$(expr match "$val" "<<SECRET:\([^}]\+\)>>$")
-    
+
+    # Exclude known BoxLang/MiniServer config variables from secret expansion
+    local excluded_vars="REWRITE_FILE REWRITES_FILE"
+
     if [[ $secret_name ]]; then
         local secret="${ENV_SECRETS_DIR}/${secret_name}"
-    elif [[ ${var:(-5)} = '_FILE' ]]; then
+    elif [[ ${var:(-5)} = '_FILE' ]] && [[ ! " $excluded_vars " =~ " $var " ]]; then
         local suffix=${var:(-5)}
         local secret=$val
     fi
