@@ -15,4 +15,4 @@ cd /tmp
 
 export TERM=xterm-256color
 
-curl -fsSL https://install.boxlang.io | /bin/bash -s -- --without-commandbox
+curl -fsSL https://install.boxlang.io | /bin/bash -s -- $BOXLANG_VERSION --without-commandbox
