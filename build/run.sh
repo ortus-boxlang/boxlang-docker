@@ -136,8 +136,18 @@ if [ -z "${JAVA_OPTS}" ]; then
     export JAVA_OPTS="-Xms512m -Xmx512m -Djava.awt.headless=true"
 fi
 
+# If MINISERVER_JSON is set, pass it as the first positional argument (explicit path).
+# If not set but $APP_DIR/miniserver.json exists, the miniserver binary will auto-detect it
+# because we already cd'd to $APP_DIR above.
+if [ -n "${MINISERVER_JSON}" ]; then
+	export jsonConfigString="${MINISERVER_JSON}"
+else
+	export jsonConfigString=""
+fi
+
 # Run our server
 boxlang-miniserver \
+	${jsonConfigString} \
 	--host ${HOST} \
 	--port ${PORT} \
 	${debugString} \
