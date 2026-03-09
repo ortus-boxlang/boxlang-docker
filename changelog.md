@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Bump BoxLang
+- Added support for the `MINISERVER_JSON` environment variable to pass a custom `miniserver.json` configuration file path to the MiniServer at startup. If not set, the MiniServer will auto-detect a `miniserver.json` in the `/app` directory.
 
 ### Fixed
 

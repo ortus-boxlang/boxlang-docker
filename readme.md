@@ -122,6 +122,8 @@ docker run --rm -it -p 8080:8080 ortussolutions/boxlang:miniserver
 docker run --rm -it -p 8080:8080 -e BOXLANG_DEBUG=true ortussolutions/boxlang:miniserver
 # Load a custom boxlang.json configuration file
 docker run --rm -it -p 8080:8080 -v $(pwd)/boxlang.json:/root/.boxlang/config/boxlang.json ortussolutions/boxlang:miniserver
+# Load a custom miniserver.json configuration file
+docker run --rm -it -p 8080:8080 -e MINISERVER_JSON=/app/config/miniserver.json ortussolutions/boxlang:miniserver
 ```
 
 ### Health Check
@@ -165,6 +167,7 @@ The following environment variables can be used to configure the BoxLang Docker 
 * `HOST` - The host the MiniServer will listen on. Default: `0.0.0.0`
 * `MAX_MEMORY:512m` - The maximum memory allocated to the BoxLang process. Default: `-Xmx512m`
 * `MIN_MEMORY:512m` - The minimum memory allocated to the BoxLang process. Default: `-Xms512m`
+* `MINISERVER_JSON` - Path to a `miniserver.json` configuration file to pass to the MiniServer at startup. If not set, the MiniServer will auto-detect a `miniserver.json` in the `/app` directory. Default: ``
 * `PORT` - The port the MiniServer will listen on. Default: `8080`
 * `REWRITES` - Enable URL rewrites. Default: `true`
 * `REWRITES_FILE` - The file containing the URL rewrites. Default: `index.bxm`
