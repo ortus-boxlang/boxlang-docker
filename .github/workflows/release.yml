@@ -9,10 +9,6 @@ on:
       - v*
 
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to release'
-        required: true
 
 # Cancel running builds if another push to branch is made while this build is running
 concurrency:
