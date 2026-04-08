@@ -180,7 +180,7 @@ jobs:
             changelog.md
 
       - name: Create Github Release
-        uses: taiki-e/create-gh-release-action@v1.9.3
+        uses: taiki-e/create-gh-release-action@v1.10.0
         continue-on-error: true
         if: env.SNAPSHOT == 'false'
         id: create_release
