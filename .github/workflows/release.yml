@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Read Version File
         id: version
@@ -132,7 +132,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Read Version File
         id: version
@@ -180,7 +180,7 @@ jobs:
             changelog.md
 
       - name: Create Github Release
-        uses: taiki-e/create-gh-release-action@v1.10.0
+        uses: taiki-e/create-gh-release-action@v1.11.0
         continue-on-error: true
         if: env.SNAPSHOT == 'false'
         id: create_release
@@ -203,7 +203,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Development Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: development
 
