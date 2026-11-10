@@ -85,13 +85,7 @@ jobs:
           fi
 
           TAGS="${BUILD_IMAGE_TAG}"
-
-          if [[ ${BUILD_IMAGE_TAG} == *"alpine"* ]]; then
-            ARCH_PLATFORMS=linux/amd64
-          else
-            ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
-          fi
-
+          ARCH_PLATFORMS=linux/amd64,linux/arm64/v8
           # Set output parameters.
           echo "arch_platforms=${ARCH_PLATFORMS}" >> $GITHUB_ENV
           echo "image_version=${IMAGE_VERSION}" >> $GITHUB_ENV
