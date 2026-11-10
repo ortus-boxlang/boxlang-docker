@@ -212,7 +212,7 @@ Published tags follow pattern:
 
 ## External Dependencies
 
-- **Base Images**: `eclipse-temurin:21-jre-noble` (Debian), `eclipse-temurin:21-jre-alpine` (Alpine)
+- **Base Images**: `eclipse-temurin:21-jre-resolute` (Debian), `eclipse-temurin:21-jre-alpine` (Alpine)
 - **BoxLang Installer**: https://install.boxlang.io (curl-based install script)
 - **Nginx**: Only in `-nginx` variants, configured as reverse proxy to MiniServer
 - **Documentation**: https://boxlang.ortusbooks.com/getting-started/running-boxlang/docker

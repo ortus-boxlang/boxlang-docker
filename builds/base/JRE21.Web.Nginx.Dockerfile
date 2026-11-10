@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre-noble
+FROM eclipse-temurin:21-jre-resolute
 
 ARG IMAGE_VERSION
 ARG BOXLANG_VERSION
