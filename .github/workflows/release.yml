@@ -8,6 +8,15 @@ on:
     tags:
       - v*
 
+  workflow_call:
+    inputs:
+      snapshot:
+        description: 'Build as snapshot release'
+        required: false
+        type: boolean
+        default: false
+    secrets: inherit
+
   workflow_dispatch:
 
 # Cancel running builds if another push to branch is made while this build is running
